@@ -1,0 +1,43 @@
+#!/usr/bin/perl -w
+use Sys::Syslog qw(:DEFAULT setlogsock);
+use Env;
+use POSIX;
+
+
+$pn = "unknown";
+if (defined ($ENV{"PEERNAME"})) {
+    $pn = $ENV{"PEERNAME"};
+}
+$inf = $ARGV[0];
+
+
+system("/sbin/tc qdisc del dev ppp0 root");
+system("/sbin/tc qdisc del dev eth0 root");
+system("tc qdisc add dev $inf root handle 1: htb default 10");
+system("tc class add dev $inf parent 1:0 classid 1:10 htb rate 6000kbps burst 1540 r2q 20"); 
+system("tc class add dev $inf parent 1:0 classid 1:11 htb rate 100kbps burst 1540");
+system("tc qdisc add dev $inf parent 1:10 handle 10: sfq perturb 10");
+system("tc qdisc add dev $inf parent 1:11 handle 11: sfq perturb 10");
+
+system("/sbin/tc filter add dev $inf parent 1:0 prio 1 protocol ip handle 11 fw flowid 1:11");
+
+#system("iptables -A PREROUTING -t mangle -i eth0 -s 54.225.196.201 -j MARK --set-mark 11");
+#system("iptables -A PREROUTING -t mangle -i eth0 -s 54.193.26.190 -j MARK --set-mark 11");
+
+echolog ("shaper for specific IP on $inf : user=$pn");
+
+sub echolog {
+    $logstring = $_[0];
+    setlogsock 'unix';
+    openlog ('startlog', 'pid', 'local6');
+    syslog ('info', $logstring);
+    closelog;
+}
+
+
+
+
+
+
+
+

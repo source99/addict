@@ -21,7 +21,11 @@ class IPAddress(Base):
     __tablename__ = "IPAddress"
     id = Column(Integer, primary_key=True)
     IP = Column(String(16), nullable=False, unique=True)
-    subnet = Column(String(12), nullable=False)
+
+class Subnet(Base):
+    __tablename__ = "Subnet"
+    id = Column(Integer, primary_key=True)
+    subnet = Column(String(20), nullable=False, unique=True)
 
 class VisitByUser(Base):
     __tablename__ = "VisitByUser"
@@ -30,9 +34,23 @@ class VisitByUser(Base):
     user = relationship(User)
     IPID = Column(Integer, ForeignKey('IPAddress.id'))
     IP = relationship(IPAddress)
+    subnetID = Column(Integer, ForeignKey('Subnet.id'))
+    subnet = relationship(Subnet)
     dateTime = Column(DateTime, nullable=False)
 
-engine = create_engine('sqlite:///sqlalchemy_sqlite.db')
+class BlockedSubnet(Base):
+    __tablename__ = "BlockedSubnet"
+    id = Column(Integer, primary_key=True)
+    userID = Column(Integer, ForeignKey('User.id'))
+    user = relationship(User)
+    subnetID = Column(Integer, ForeignKey('Subnet.id'))
+    subnet = relationship(Subnet)
+
+
+#engine = create_engine('sqlite:///sqlalchemy_sqlite.db')
+
+engine = create_engine('mysql+mysqldb://vpn:ma93a-ya#A6@50.18.211.139:3306/vpn?charset=utf8&use_unicode=0')
+
 
 Base.metadata.create_all(engine)
 

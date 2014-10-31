@@ -37,7 +37,7 @@ def main(argv):
     cap = pcapy.open_live(dev, 100,1,1000)
 #    cap.setfilter(bpffilter)
 
-    cap.setfilter("not src 172.31.5.207 and not src 172.31.0.2 and not src 76.21.33.185 and not src 50.18.211.139 and not src 54.215.164.159 and not src 192.168.11.0 and not src 192.168.11.100 and not src 192.168.11.101")
+#    cap.setfilter("not src 172.31.5.207 and not src 172.31.0.2 and not src 76.21.33.185 and not src 50.18.211.139 and not src 54.215.164.159 and not src 192.168.11.0 and not src 192.168.11.100 and not src 192.168.11.101")
     while(1):
         try:
             (header,packet) = cap.next()
@@ -46,6 +46,7 @@ def main(argv):
 #           print "packet = {}".format(packet)
             if packet:
                 process_packet(packet, session, curr_user)
+#                print packet
         except pcapy.PcapError:
             #print "pcapy error"
             pass
@@ -66,13 +67,16 @@ def process_packet(packet, session, user):
     #send to DB
     valid = True
     try:
-        ip_src, ip_dst = parse_pcapy_packet.parse_packet(packet)
+        print "new packet"
+        ip_src, ip_dst = parse_pcapy_packet.parse_packet_ppp(packet)
+        #print "packet across {} from {} to {}".format(sys.argv[1], ip_src, ip_dst)
+
         #break
     except TypeError:
-        print "not a valid ethernet packet"
+#        print "not a valid ethernet packet"
         valid = False
-    if valid:
-        send_ip_db(ip_src, session, user)
+#    if valid:
+#        send_ip_db(ip_src, session, user)
 
 count = 0
 

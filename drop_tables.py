@@ -52,34 +52,5 @@ class BlockedSubnet(Base):
 engine = create_engine('mysql+mysqldb://vpn:ma93a-ya#A6@50.18.211.139:3306/vpn?charset=utf8&use_unicode=0')
 
 
-Base.metadata.create_all(engine)
+Base.metadata.drop_all(engine)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'''
-class IPByUser(Base):
-    __tablename__ = "IPByUser"
-    id = Column(Integer, primary_key=True)
-    userId = Column(Integer, ForeignKey('User.id'))
-    IPId = Column(Integer, ForeignKey('IPAddress.id'))
-    count = Column(Integer, default=1)
-
-'''

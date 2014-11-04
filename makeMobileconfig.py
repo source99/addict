@@ -4,6 +4,8 @@ import base64
 username = sys.argv[1]
 email = sys.argv[2]
 userCertificate_p12filename = sys.argv[3]
+outputFilename = sys.argv[4]
+out_fp = open(outputFilename, 'w')
 
 userCertificate_fp = open(userCertificate_p12filename, 'r')
 userCertificate_raw = userCertificate_fp.read()
@@ -17,8 +19,7 @@ userCertificate = base64.b64encode(userCertificate_raw)
 userCertificate_payloadIdentifier = "client.openvpn.net.{}.com.apple.security.pkcs12.{}".format(uuid.uuid4(),userCertificate_PayloadUUID)
 top_PayloadUUID = uuid.uuid4()
 
-print """
-<?xml version="1.0" encoding="UTF-8"?>
+out="""<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -250,4 +251,4 @@ print """
 	<integer>1</integer>
 </dict>
 </plist>""".format(email, userCertificate_PayloadUUID, VPNSettings_PayloadIdentifier, VPNSettings_PayloadUUID, userCertificatePassword, userCertificate_p12filename, userCertificate, userCertificate_p12filename, userCertificate_payloadIdentifier, userCertificate_PayloadUUID, top_PayloadUUID)
-
+out_fp.write(out)

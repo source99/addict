@@ -13,11 +13,10 @@ from utils import get_host
 
 def main(argv):
     dev = argv[1]
-    user = argv[2]
+    ip = argv[2]
+    user = argv[3]
 
-    print "dev = {}".format(dev)
-    bpffilter = "ip dst {} and not src 192.168.0".format(argv[2])
-    print "bpf = {}".format(bpffilter)
+    bpffilter = "ip dst {}".format(ip)
 
     engine = create_engine('mysql+mysqldb://vpn:ma93a-ya#A6@50.18.211.139:3306/vpn?charset=utf8&use_unicode=0')
     Base.metadata.bind = engine
@@ -29,15 +28,14 @@ def main(argv):
         curr_user = User(fullName=user, vpnUserName=user, vpnPassword='vpn_password33')
         session.add(curr_user)
         session.commit()
+        print "added user {}".format(user)
     else:
         curr_user = session.query(User).filter(User.vpnUserName=='matt')[0]
-
     
 
     cap = pcapy.open_live(dev, 100,1,1000)
-#    cap.setfilter(bpffilter)
-
-    cap.setfilter("not src 172.31.5.207 and not src 172.31.0.2 and not src 76.21.33.185 and not src 50.18.211.139 and not src 54.215.164.159 and not src 192.168.11.0 and not src 192.168.11.100 and not src 192.168.11.101")
+#    cap.setfilter("not src 172.31.5.207 and not src 172.31.0.2 and not src 76.21.33.185 and not src 50.18.211.139 and not src 54.215.164.159 and not src 192.168.11.0 and not src 192.168.11.100 and not src 192.168.11.101")
+    cap.setfilter(bpffilter)
     while(1):
         try:
             (header,packet) = cap.next()
@@ -66,7 +64,7 @@ def process_packet(packet, session, user):
     #send to DB
     valid = True
     try:
-        ip_src, ip_dst = parse_pcapy_packet.parse_packet(packet)
+        ip_src, ip_dst = parse_pcapy_packet.parse_packet_ppp(packet)
         #break
     except TypeError:
         print "not a valid ethernet packet"

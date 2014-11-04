@@ -8,6 +8,34 @@ def eth_addr (a) :
     b = "%.2x:%.2x:%.2x:%.2x:%.2x:%.2x" % (ord(a[0]) , ord(a[1]) , ord(a[2]), ord(a[3]), ord(a[4]) , ord(a[5]))
     return b
 
+def hex_char (a) : 
+    b = "$.2x:" % ord(a)
+    print "asdf"
+    return b
+
+
+def parse_packet_ppp(packet) :
+    packet_hex = packet.encode('hex')
+    hex192 = "c0a80b65"
+    hex172 = "ac1f05cf"
+    #print "packet = {}".format(packet_hex)
+    #print "192 found at {}".format(packet_hex.index(hex192))
+    ip_src = unpack('!4s',packet[28:32])
+    ip_dst = unpack('!4s',packet[32:36])
+    #print "ip_src = {}".format(ip_src[0].encode('hex'))
+    #print "ip_dst = {}".format(ip_dst[0].encode('hex'))
+    s_ip = socket.inet_ntoa(ip_src[0])
+    d_ip = socket.inet_ntoa(ip_dst[0])
+
+    print "from {} : to {}".format(s_ip, d_ip)
+    
+    
+    return s_ip, d_ip
+
+
+
+
+
 def parse_packet(packet) :
 
     #parse ethernet header

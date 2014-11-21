@@ -14,6 +14,43 @@ def hex_char (a) :
     return b
 
 
+def parse_packet_ipsec(packet) :
+#    packet_hex = packet.encode('hex')
+#    hex192 = "ac1010"
+#    hex198 = "c629be" 
+#    print "packet = {}".format(packet_hex[:120])
+
+#    try:
+##        print "found 172.16.16 at {}".format(packet_hex.index(hex192))
+#        print "found 198.41.190.47 at {}".format(packet_hex.index(hex198))
+#        ip_src = unpack('!4s',packet[26:30])
+#        ip_dst = unpack('!4s',packet[30:34])
+#        #print "ip_src = {}".format(ip_src[0].encode('hex'))
+#        #print "ip_dst = {}".format(ip_dst[0].encode('hex'))
+#        s_ip = socket.inet_ntoa(ip_src[0])
+#        d_ip = socket.inet_ntoa(ip_dst[0])
+#        print "from {} : to {}".format(s_ip, d_ip)
+#        print "packet = {}".format(packet_hex[:120])
+#
+#    except:
+#        print "did not both either"
+#        print "packet = {}".format(packet_hex[:120])
+
+#    ip_src = unpack('!4s',packet[26:30])
+#    ip_dst = unpack('!4s',packet[30:34])
+    ip_dst = unpack('!4s',packet[26:30])
+    ip_src = unpack('!4s',packet[30:34])
+    #print "ip_src = {}".format(ip_src[0].encode('hex'))
+    #print "ip_dst = {}".format(ip_dst[0].encode('hex'))
+    s_ip = socket.inet_ntoa(ip_src[0])
+    d_ip = socket.inet_ntoa(ip_dst[0])
+
+#    print "from {} : to {}".format(s_ip, d_ip)
+    
+    
+    return s_ip, d_ip
+
+
 def parse_packet_ppp(packet) :
     packet_hex = packet.encode('hex')
     hex192 = "c0a80b65"

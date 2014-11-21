@@ -4,7 +4,8 @@ import base64
 username = sys.argv[1]
 email = sys.argv[2]
 userCertificate_p12filename = sys.argv[3]
-outputFilename = sys.argv[4]
+strongswanCert_filename = sys.argv[4]
+outputFilename = sys.argv[5]
 out_fp = open(outputFilename, 'w')
 
 userCertificate_fp = open(userCertificate_p12filename, 'r')
@@ -18,6 +19,12 @@ usercertificateFilename = "{}.p12".format(username)
 userCertificate = base64.b64encode(userCertificate_raw)
 userCertificate_payloadIdentifier = "client.openvpn.net.{}.com.apple.security.pkcs12.{}".format(uuid.uuid4(),userCertificate_PayloadUUID)
 top_PayloadUUID = uuid.uuid4()
+
+strongswanCert_fp = open(strongswanCert_filename,'r')
+strongswanCert_raw = strongswanCert_fp.read()
+strongswanCert_base64 = base64.b64encode(strongswanCert_raw)
+
+
 
 out="""<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -35,56 +42,7 @@ out="""<?xml version="1.0" encoding="UTF-8"?>
 			<string>strongswanCert.crt</string>
 			<key>PayloadContent</key>
 			<data>
-			LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUZZekNDQTB1
-			Z0F3SUJBZ0lJUXBTRTFYbllUY0V3RFFZSktvWklodmNOQVFFRkJR
-			QXdQekVMTUFrR0ExVUUKQmhNQ1EwZ3hFekFSQmdOVkJBb1RDbk4w
-			Y205dVoxTjNZVzR4R3pBWkJnTlZCQU1URW5OMGNtOXVaMU4zWVc0
-			ZwpVbTl2ZENCRFFUQWVGdzB4TkRFd01qa3hPREUzTkRKYUZ3MHlO
-			REV3TWpZeE9ERTNOREphTUQ4eEN6QUpCZ05WCkJBWVRBa05JTVJN
-			d0VRWURWUVFLRXdwemRISnZibWRUZDJGdU1Sc3dHUVlEVlFRREV4
-			SnpkSEp2Ym1kVGQyRnUKSUZKdmIzUWdRMEV3Z2dJaU1BMEdDU3FH
-			U0liM0RRRUJBUVVBQTRJQ0R3QXdnZ0lLQW9JQ0FRQzlSeFZZVGJq
-			dwo1NkZ6VklRVWc3MXdLMGd3dmcxc1k3VkZmRDQyT1ZNSGphb0FE
-			dkNMejVaZGZvSGJlZk91YTZ3R1dDVjVjSUFyCjVyaEZYM1JnS0dX
-			cDdQenJ2b0xTcjllTW9vRkNxcmZjaDluNVI4cGlUQWpRalFTWjVC
-			R2VSeVlTUGlXWGpMck0KbnFWaFFFS1JOZnJ4QVlMcWZnZ2VSZmky
-			ZjFBaG1RUW1JUlZESGFiQUxSTTcxNVN6Q2pQeUpPMUc1M0MzeUlS
-			RApvZ1VKOXI1dEFTbE9hSWJlbFNnaUgxU012NjF4MjJBK2FUUzRk
-			UUFmTG5sVzNOV00yakpsRTRJdVlhbGxCSmRlCllsZmNCUjRPR0dS
-			RDNaQ1k5N2xsQzIwV09jSUpWazRuMTB3dlNXcTU5dHFQODk2d1c2
-			Z0xKV0JjbjMyTGxZQWoKcGFleCthZWtXdUJSV2lHV01nR2p3QnEz
-			OEFQU216dmY2K1hqT2dacEFWRmx4bUhsQ2o2bmEyQnVwQjROMSsx
-			WgpRdXhhaG1uL2phalpMUmRNQzBDdGVmOTlKZ1NRVTlJVHM3WVp6
-			QjhmUVl1emRpdytkVXFtRGFUWTh1RlU5ZnA1CkZRTWd1LzlpS2Zj
-			a0xlL1hFYmhXVkRrY3FtbmxNTGp2RkliK0xIcGFsZVFRYWRtTjJE
-			WHE0QndBd1FJVmRsSHUKeXl2SXYvT1UxUjFEeU9YM1FBdmZLOWFF
-			OGcvcW1UOVRRcFJURmtKZ29nNHl5dHFlYk1oNE5xZ1RmVHdrZ1VC
-			dgphMlJjVFVFNG8vTGlVeUNXakc3VWZIaU1XWW9WUWFmbVZ4WTgz
-			TTBZdjhuYjdabzJtd2Q0TEJ1YmVzQUMzaGt4CjlWQXFuQ3FFNWZZ
-			MFBjMldQNExvbGU4TTB2WXRRMTZtNHdJREFRQUJvMk13WVRBUEJn
-			TlZIUk1CQWY4RUJUQUQKQVFIL01BNEdBMVVkRHdFQi93UUVBd0lC
-			QmpBZEJnTlZIUTRFRmdRVTVtaDlYTDl1TGtnUWMxaHh0cTdKQm9i
-			dQphTFl3SHdZRFZSMGpCQmd3Rm9BVTVtaDlYTDl1TGtnUWMxaHh0
-			cTdKQm9idWFMWXdEUVlKS29aSWh2Y05BUUVGCkJRQURnZ0lCQUVS
-			eCtMbHh6VFdJZy9yc3hwTExxYTVWQ3pkQmZZTExDNy9KSFc5QzVV
-			K3VzWXl5OUU1d1JOTjYKc09HRlVuSnhZd1RURVFRMzhHUnd4VkFH
-			V0JLaG9EQ2xMRVg0MjBSbVBJZFZTZXRQRFVZeWVuclFOajNpQzRo
-			Ygp4SFIvZ0NhbHVsSVFUbEk5bnNneEw4TzAyZENkL04xbTRPSnZ0
-			SThSaVZoUjRpa0Vlb3Jvcm05MTZ0WTNkanp2Cm1rckJPVzRhNDBO
-			dHh6TVBkZjRoTERSQzJ3T1hYYWhnR2RCaXhKYTlmektkRGdZVTFs
-			VkFRd1E0TFFmNFZmOFAKdjhTMWVsY21ZendlbVczc3ZaRjNid21X
-			SUhEbjVUd1Fjc204QnNCemhYQ2ZDZlpEbENZY2F6TG96M1lmRWZi
-			Mwptb0xZb3U0OW1NRlF3UDNWZC9TckxoTUlYYlVZcmYyQ0IxM3Nm
-			TFRhemtXK3BzK2YyVktBWmt3VWxuakNDU1NpCkpsemJzTGtWQktX
-			YldqN052bXNQbHdIejF6ZE9oUW0wRlZJU0RxdmhGU1JNU3Z0VlE3
-			b2xJRVJqNlJvY3ZMNWsKZHo4SU5MdkoxNE02VHljNGRrdWRva0pL
-			ZmJ1Uy91bW1BVDFEZ2h6YXhXaHY3SEdFamVwSkQ0anBwZk9GaXdr
-			Lwp3Mm1FcHJHUVc4eWpET1pIc2x2U3g5T2NQMEpRWERtUWdYcUNL
-			TzJYMElsQ1J6ditGTzBtdzNTYmdOUVFkWjBGCkg3ZE1YZHp4K2JC
-			V0o4dm1zOXNMQUVvR2VoYklLN09xZ1RoaFhlUy9qbjRsUXBPOTVu
-			WmkwR0Zta0xZOVFHYWYKcjFHQWZpVnJYVit4NkRPMHNWUHJsQmJP
-			TUdtSXRNSjQyMXRER0hwdWYwekNBOGpHME9OVQotLS0tLUVORCBD
-			RVJUSUZJQ0FURS0tLS0tCg==
+			{}
 			</data>
 			<key>PayloadDescription</key>
 			<string>Configures certificate settings.</string>
@@ -250,5 +208,5 @@ out="""<?xml version="1.0" encoding="UTF-8"?>
 	<key>PayloadVersion</key>
 	<integer>1</integer>
 </dict>
-</plist>""".format(email, userCertificate_PayloadUUID, VPNSettings_PayloadIdentifier, VPNSettings_PayloadUUID, userCertificatePassword, userCertificate_p12filename, userCertificate, userCertificate_p12filename, userCertificate_payloadIdentifier, userCertificate_PayloadUUID, top_PayloadUUID)
+</plist>""".format(strongswanCert_base64, email, userCertificate_PayloadUUID, VPNSettings_PayloadIdentifier, VPNSettings_PayloadUUID, userCertificatePassword, userCertificate_p12filename, userCertificate, userCertificate_p12filename, userCertificate_payloadIdentifier, userCertificate_PayloadUUID, top_PayloadUUID)
 out_fp.write(out)

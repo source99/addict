@@ -30,7 +30,7 @@ if __name__ == "__main__":
     p12path = "/etc/ipsec.d/p12/"
     p12full = "{}/{}.p12".format(p12path, username)
     mobileconfigFilename = "{}.mobileconfig".format(username)
-
+    strongswanCert = caFull
 
     #create key
     command = "ipsec pki --gen --type rsa --size 2048 --outform pem > {}".format(keyFull)
@@ -49,7 +49,7 @@ if __name__ == "__main__":
 #    print "scp -i /Users/matt/work/addict/key_pairs/vpn_west.pem ubuntu@strong.lesstechmorepeople.com:{} /Users/matt/work/addict/keys/{}/strongswanCert.crt\n".format(caFull, username)
 
     #make full p12
-    command = "python /home/ubuntu/addict/makeMobileconfig.py {} {} {} {}".format(username, email, p12full, mobileconfigFilename)
+    command = "python /home/ubuntu/addict/makeMobileconfig.py {} {} {} {} {}".format(username, email, p12full, strongswanCert, mobileconfigFilename)
     call_command(command)   
     command = "scp -i /home/ubuntu/addict/addict_web.pem {} ubuntu@www.lesstechmorepeople.com:/var/www/profile/{}".format(mobileconfigFilename, mobileconfigFilename)
     call_command(command)
